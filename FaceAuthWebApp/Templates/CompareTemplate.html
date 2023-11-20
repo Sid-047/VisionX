@@ -1,0 +1,14 @@
+<html>
+	<head>
+		<title>ComparePage</title>
+	</head>
+	<link rel="stylesheet" href="{{url_for('static',filename='Styles.css')}}">
+	<body>
+		<button id="btn">
+		<form action = "/compareModel" method="POST" enctype="multipart/form-data">
+			<input type="file" name="pic" multiple="false" accept="image/*"/>
+		</button>
+        <input type = "submit" value="Compare" id="sub">
+		</form>
+	</body>
+</html>
