@@ -62,7 +62,7 @@ def validation():
             for j in i[2]:
                 print("................>>>>>>>>>>>>",j)
                 try:
-                    res = DeepFace.verify(img1_path=dir_+"\\"+j, img2_path=os.getcwd()+"\\"+pic.filenae, model_name="Facenet512", detector_backend="ssd", distance_metric="euclidean_l2")
+                    res = DeepFace.verify(img1_path=dir_+"\\"+j, img2_path=os.getcwd()+"\\"+pic.filename, model_name="Facenet512", detector_backend="ssd", distance_metric="euclidean_l2")
                 except:
                     continue
                 print(res)
