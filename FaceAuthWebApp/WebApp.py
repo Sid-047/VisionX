@@ -1,11 +1,15 @@
 import os
-import time
+import tqdm
 import shutil
 import numpy as np
 from flask import *
 from deepface import DeepFace
 from PIL import Image, ImageSequence
 
+if '/' in os.getcwd():
+    slash = '//'
+else:
+    slash = '\\'
 app=Flask(__name__)
 
 @app.route('/enroll')
@@ -39,8 +43,7 @@ def fetch():
             gif_frames.append(np.array(frame))
         for i in gif_frames[1::step]:
             img = np.array(i)
-            #print(img)
-            Image.fromarray(img).save("FeedData/"+str(a)+".png")
+            Image.fromarray(img).save("FeedData"+ slash +str(a)+".png")
             a+=1
         print(gif.filename)
         gif.close()
@@ -57,17 +60,17 @@ def validation():
         pic=request.files['pic']
         pic.save(pic.filename)
         acc=np.array([])
-        dir_ = os.getcwd()+"\\FeedData"
+        dir_ = os.getcwd() + slash + "FeedData" + slash
         for i in os.walk(dir_):
             for j in i[2]:
                 print("................>>>>>>>>>>>>",j)
                 try:
-                    res = DeepFace.verify(img1_path=dir_+"\\"+j, img2_path=os.getcwd()+"\\"+pic.filename, model_name="Facenet512", detector_backend="ssd", distance_metric="euclidean_l2")
+                    res = DeepFace.verify(img1_path=dir_+j, img2_path=os.getcwd() + slash + pic.filename, model_name="Facenet512", detector_backend="ssd", distance_metric="euclidean_l2")
                 except:
                     continue
                 print(res)
                 acc = np.append(acc,np.array(res["verified"]))
-        os.remove(os.getcwd()+"\\"+pic.filename)
+        os.remove(os.getcwd()+ slash +pic.filename)
         accuracy = sum(list(acc))/len(list(acc))
         if accuracy>0.6:
             result = True
