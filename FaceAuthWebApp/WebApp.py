@@ -1,4 +1,5 @@
 import os
+import time
 import tqdm
 import shutil
 import numpy as np
@@ -57,11 +58,12 @@ def ComparePage():
 @app.route('/compareModel', methods=['POST'])    
 def validation():
     if request.method=='POST':
+        t1 = time.time()
         pic=request.files['pic']
         pic.save(pic.filename)
         acc=np.array([])
         dir_ = os.getcwd() + slash + "FeedData" + slash
-        for i in os.walk(dir_):
+        for i in tqdm.tqdm(os.walk(dir_), colour = "red"):
             for j in i[2]:
                 print("................>>>>>>>>>>>>",j)
                 try:
@@ -76,6 +78,8 @@ def validation():
             result = True
         else:
             result = False
+        t2 = time.time()
+        print("ExecTime: "+str(t2-t1)+" Secs")
         return str(accuracy)+" --- "+str(result)
         
 if __name__=='__main__':
