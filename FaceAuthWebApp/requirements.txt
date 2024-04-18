@@ -2,3 +2,4 @@ numpy==1.26.1
 deepface==0.0.79
 pillow==10.0.0
 flask==3.0.0
+tqdm==4.66.1
